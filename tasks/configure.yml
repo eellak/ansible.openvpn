@@ -14,7 +14,7 @@
 
 - name: Generate tls-auth key
   command: openvpn --genkey --secret "{{ openvpn_keydir }}/ta.key"
-  notify: openvpn pack clients
+  notify: ['openvpn pack clients']
   args: { creates: "{{ openvpn_keydir }}/ta.key" }
 
 - name: Generate Clients keys
@@ -39,9 +39,9 @@
   register: crl_pem_file
 
 - name: Generate Clients configurations
-  template: src=client.conf.j2 dest={{ openvpn_keydir }}/{{ item }}.ovpn
+  template: src=client.conf.j2 dest={{ openvpn_keydir }}/{{ item }}.conf
   with_items: openvpn_clients
-  notify: openvpn pack clients
+  notify: ['openvpn pack clients']
   register: openvpn_clients_changed
 
 - name: Setup PAM
@@ -58,7 +58,7 @@
 
 - name: Configure server
   template: src=server.conf.j2 dest={{ openvpn_etcdir }}/server.conf
-  notify: [openvpn restart]
+  notify: ['openvpn restart']
 
 - name: Ensure openvpn key dir has the right permission
   file: path={{ openvpn_keydir }} state=directory mode=0700 owner={{ openvpn_user }}
