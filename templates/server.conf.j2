@@ -43,6 +43,9 @@ key {{openvpn_keydir}}/server.key  # This file should be kept secret
 # dh1024.pem 1024 Substitute 2048 for 1024 if you are using 2048 bit keys.
 dh {{openvpn_keydir}}/dh{{openvpn_key_size}}.pem
 
+#Enable the SSL/TLS HMAC handshake protection.
+tls-auth {{openvpn_keydir}}/ta.key 0
+
 # Client configuration directory.
 {% if openvpn_client_config_dir is defined -%}
 client-config-dir {{ openvpn_client_config_dir }}

@@ -39,6 +39,9 @@ ca ca.crt
 cert {{client}}.crt
 key {{client}}.key
 
+# Enable the SSL/TLS HMAC handshake protection.
+tls-auth ta.key 1
+
 # Verify server certificate by checking that the certicate has the nsCertType
 # field set to "server".  This is an important precaution to protect against a
 # potential attack discussed here: http://openvpn.net/howto.html#mitm
